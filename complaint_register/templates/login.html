@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Login</h2>
+<form method="POST" action="{{ url_for('auth_blueprint.login') }}">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.username.label(class="form-label") }}
+        {{ form.username(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control") }}
+    </div>
+    {% if form.errors %}
+    <ul>
+        {% for key, val in form.errors.items() %}
+        <li>{{ " ".join(val) }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Moderator Dashboard</h1>
+<h3>All Users</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.user_id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                {% if user.is_active %}
+                Account Active
+                {% else %}
+                Account Deactivated
+                {% endif %}
+            </td>
+            <td>
+                <form action="{{ url_for('admin_blueprint.toggle_user_status', user_id=user.user_id) }}" method="post">
+                    {{ form.csrf_token }}
+                    {% if user.admin %}
+                    <button class="btn btn-secondary" type="submit" disabled>Toggle User Status</button>
+                    {% else %}
+                    <button class="btn btn-primary" type="submit">Toggle User Status</button>
+                    {% endif %}
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<h3>All Complaints</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Complaint ID</th>
+            <th>User</th>
+            <th>Email</th>
+            <th>Complaint</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for complaint in complaints %}
+        <tr>
+            <td>{{ complaint.complaint_id }}</td>
+            <td>{{ complaint.username }}</td>
+            <td>{{ complaint.email }}</td>
+            <td>{{ complaint.complaint }}</td>
+            <td>
+                <form action="{{ url_for('admin_blueprint.admin', complaint_id=complaint.complaint_id) }}"
+                    method="post">
+                    {{ form.csrf_token }}
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

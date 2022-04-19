@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="jumbotron text-center mt-5">
+      <h1 class="display-4">Oops!</h1>
+      <p class="lead">An error has occurred.</p>
+      <p>{{ error_message }}</p>
+      <a class="btn btn-primary" href="{{ redirect_url }}">Go Back</a>
+    </div>
+  </div>
+{% endblock %}

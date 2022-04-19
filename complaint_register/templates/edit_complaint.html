@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .center-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin: auto;
+        max-width: 500px;
+    }
+
+    .errors {
+        color: red;
+        list-style-type: none;
+        padding: 0;
+    }
+</style>
+
+<div class="center-content">
+    <h2>Edit Your Complaint</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+
+        {{ form.hidden_tag() }}
+        {{ form.complaint_id }}
+
+        {{ form.username.label }} {{ form.username }}<br>
+        {{ form.email.label }} {{ form.email }}<br>
+        {{ form.complaint.label }} {{ form.complaint }}<br>
+        {% if form.file.data %}
+            <div>
+                <strong>Uploaded File:</strong>
+                <p>{{ form.file.data }}</p>
+            </div>
+            <div>
+                <a href="{{ url_for('complaint_blueprint.view_file', complaint_id=form.complaint_id.data) }}">View File</a>
+                <a href="{{ url_for('complaint_blueprint.delete_file', complaint_id=form.complaint_id.data) }}">Delete File</a>
+            </div>
+        {% endif %}
+        {% if form.captcha %}
+        {{ form.captcha.label }} {{ form.captcha }}
+        {% if form.captcha.errors %}
+        <ul class="errors">
+            So You Are A Robot Huh?
+        </ul>
+        {% endif %}
+        {% endif %}
+        <button class="btn btn-primary" type="submit">Edit</button>
+    </form>
+</div>
+{% endblock %}

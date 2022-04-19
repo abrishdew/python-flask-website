@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your App</title>
+    <!-- Include your CSS and JavaScript files -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+    <style>
+        .flash-messages {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        .flash-messages li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        background-color: #f8f9fa;
+        padding: 10px 0;
+    }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation menu -->
+    <nav>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('complaint_blueprint.complaint') }}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('auth_blueprint.login') }}">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('auth_blueprint.signup') }}">Sign Up</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('auth_blueprint.logout') }}">Logout</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Page content -->
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flash-messages">
+            {% for message in messages %}
+            <li class="flash-message">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        <script>
+            // Wait for a few seconds and then remove the flash message
+            setTimeout(function () {
+                var flashMessages = document.getElementsByClassName('flash-message');
+                for (var i = 0; i < flashMessages.length; i++) {
+                    flashMessages[i].remove();
+                }
+            }, 5000); // 5000 milliseconds = 5 seconds
+        </script>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; {{ current_year }} Secure App
+    </footer>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
